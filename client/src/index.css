@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(222, 84%, 5%);
+  --foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217, 33%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --popover: hsl(222, 84%, 5%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --card: hsl(222, 84%, 5%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217, 33%, 17%);
+  --input: hsl(217, 33%, 17%);
+  --primary: hsl(263, 70%, 50%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(217, 33%, 17%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(217, 33%, 17%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 63%, 31%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(263, 70%, 50%);
+  --radius: 0.5rem;
+  
+  /* Custom cosmic colors */
+  --cosmic-50: hsl(210, 40%, 98%);
+  --cosmic-100: hsl(210, 40%, 96%);
+  --cosmic-200: hsl(214, 32%, 91%);
+  --cosmic-300: hsl(213, 27%, 84%);
+  --cosmic-400: hsl(215, 20%, 65%);
+  --cosmic-500: hsl(215, 16%, 47%);
+  --cosmic-600: hsl(215, 19%, 35%);
+  --cosmic-700: hsl(215, 25%, 27%);
+  --cosmic-800: hsl(217, 33%, 17%);
+  --cosmic-900: hsl(222, 84%, 5%);
+  
+  /* Mystic purple colors */
+  --mystic-50: hsl(270, 100%, 98%);
+  --mystic-100: hsl(269, 100%, 95%);
+  --mystic-200: hsl(269, 100%, 92%);
+  --mystic-300: hsl(268, 100%, 86%);
+  --mystic-400: hsl(270, 95%, 75%);
+  --mystic-500: hsl(271, 91%, 65%);
+  --mystic-600: hsl(271, 83%, 57%);
+  --mystic-700: hsl(272, 72%, 47%);
+  --mystic-800: hsl(273, 67%, 39%);
+  --mystic-900: hsl(274, 66%, 32%);
+  
+  /* Celestial gold colors */
+  --celestial-50: hsl(48, 100%, 96%);
+  --celestial-100: hsl(48, 96%, 89%);
+  --celestial-200: hsl(48, 97%, 77%);
+  --celestial-300: hsl(46, 97%, 65%);
+  --celestial-400: hsl(43, 96%, 56%);
+  --celestial-500: hsl(38, 92%, 50%);
+  --celestial-600: hsl(32, 95%, 44%);
+  --celestial-700: hsl(26, 90%, 37%);
+  --celestial-800: hsl(23, 83%, 31%);
+  --celestial-900: hsl(22, 78%, 26%);
+}
+
+.dark {
+  --background: hsl(222, 84%, 5%);
+  --foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217, 33%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --popover: hsl(222, 84%, 5%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --card: hsl(222, 84%, 5%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217, 33%, 17%);
+  --input: hsl(217, 33%, 17%);
+  --primary: hsl(263, 70%, 50%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(217, 33%, 17%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(217, 33%, 17%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 63%, 31%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(263, 70%, 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    background: linear-gradient(135deg, hsl(222, 84%, 5%) 0%, hsl(217, 33%, 17%) 50%, hsl(215, 25%, 27%) 100%);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .cosmic-bg {
+    background: linear-gradient(135deg, hsl(222, 84%, 5%) 0%, hsl(217, 33%, 17%) 50%, hsl(215, 25%, 27%) 100%);
+  }
+  
+  .mystic-gradient {
+    background: linear-gradient(135deg, hsl(273, 67%, 39%) 0%, hsl(271, 83%, 57%) 50%, hsl(271, 91%, 65%) 100%);
+  }
+  
+  .celestial-glow {
+    box-shadow: 0 0 30px hsla(271, 91%, 65%, 0.3), 0 0 60px hsla(271, 91%, 65%, 0.1);
+  }
+  
+  .card-glow {
+    backdrop-filter: blur(10px);
+    background: hsla(210, 40%, 98%, 0.1);
+    border: 1px solid hsla(271, 91%, 65%, 0.2);
+  }
+  
+  .mystical-font {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-twinkle {
+    animation: twinkle 3s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  from { 
+    box-shadow: 0 0 20px hsl(271, 91%, 65%), 0 0 30px hsl(271, 91%, 65%), 0 0 40px hsl(271, 91%, 65%); 
+  }
+  to { 
+    box-shadow: 0 0 30px hsl(270, 95%, 75%), 0 0 40px hsl(270, 95%, 75%), 0 0 50px hsl(270, 95%, 75%); 
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600&display=swap');
