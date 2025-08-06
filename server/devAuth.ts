@@ -38,6 +38,7 @@ export function setupDevAuth(app: Express) {
   // Development login endpoint - automatically logs in as mock user
   app.get('/api/login', async (req, res) => {
     console.log("🔧 Dev login: auto-authenticating mock user");
+    console.log("👤 Mock user created/updated: dev@example.com");
     
     // Try to ensure user exists in database (but don't fail if DB is not available)
     try {

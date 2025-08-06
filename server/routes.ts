@@ -39,17 +39,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     isAuthenticated = replitIsAuthenticated;
   }
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  // Auth routes - only register if not in development (devAuth handles these in dev mode)
+  if (!isDevelopment) {
+    app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+      try {
+        const userId = req.user.claims.sub;
+        const user = await storage.getUser(userId);
+        res.json(user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ message: "Failed to fetch user" });
+      }
+    });
+  }
 
   // Deck routes
   app.get('/api/decks', isAuthenticated, async (req: any, res) => {
