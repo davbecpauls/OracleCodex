@@ -117,6 +117,19 @@
   .mystical-font {
     font-family: 'Cinzel', serif;
   }
+  
+  /* Ensure input text is always visible */
+  input.bg-cosmic-800\/50,
+  textarea.bg-cosmic-800\/50 {
+    color: white !important;
+    caret-color: white !important;
+  }
+  
+  input.bg-cosmic-800\/50::placeholder,
+  textarea.bg-cosmic-800\/50::placeholder {
+    color: hsl(215, 20%, 65%) !important;
+    opacity: 0.7;
+  }
 }
 
 @layer utilities {

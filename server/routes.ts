@@ -1,7 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupAuth, isAuthenticated as replitIsAuthenticated } from "./replitAuth";
+import { setupDevAuth, isAuthenticated as devIsAuthenticated } from "./devAuth";
 import { insertDeckSchema, insertCardSchema, insertSpreadSchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
@@ -24,8 +25,19 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
+  // Choose authentication based on environment
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  let isAuthenticated;
+  
+  if (isDevelopment) {
+    console.log("🔧 Using development authentication");
+    setupDevAuth(app);
+    isAuthenticated = devIsAuthenticated;
+  } else {
+    console.log("🔒 Using Replit authentication");
+    await setupAuth(app);
+    isAuthenticated = replitIsAuthenticated;
+  }
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
@@ -68,7 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const validatedData = insertDeckSchema.parse(req.body);
-      const deck = await storage.createDeck(userId, validatedData);
+      const deck = await storage.createDeck(userId, { ...validatedData, userId });
       res.status(201).json(deck);
     } catch (error) {
       console.error("Error creating deck:", error);
@@ -111,7 +123,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/decks/:deckId/cards', isAuthenticated, async (req: any, res) => {
     try {
       const validatedData = insertCardSchema.parse(req.body);
-      const card = await storage.createCard(req.params.deckId, validatedData);
+      const card = await storage.createCard(req.params.deckId, { ...validatedData, deckId: req.params.deckId });
       res.status(201).json(card);
     } catch (error) {
       console.error("Error creating card:", error);
@@ -154,7 +166,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/decks/:deckId/spreads', isAuthenticated, async (req: any, res) => {
     try {
       const validatedData = insertSpreadSchema.parse(req.body);
-      const spread = await storage.createSpread(req.params.deckId, validatedData);
+      const spread = await storage.createSpread(req.params.deckId, { ...validatedData, deckId: req.params.deckId });
       res.status(201).json(spread);
     } catch (error) {
       console.error("Error creating spread:", error);

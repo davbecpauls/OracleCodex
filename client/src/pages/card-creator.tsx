@@ -56,7 +56,7 @@ export default function CardCreator() {
   });
 
   useEffect(() => {
-    if (cards && cards.length > 0) {
+    if (cards && Array.isArray(cards) && cards.length > 0) {
       const maxCardNumber = Math.max(...cards.map((card: any) => card.cardNumber));
       form.setValue("cardNumber", maxCardNumber + 1);
     }
@@ -257,6 +257,7 @@ export default function CardCreator() {
                           <FormControl>
                             <Textarea 
                               {...field}
+                              value={field.value || ""}
                               rows={3}
                               placeholder="The essence and energy this card represents..."
                               className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
@@ -278,6 +279,7 @@ export default function CardCreator() {
                             <FormControl>
                               <Textarea 
                                 {...field}
+                                value={field.value || ""}
                                 rows={4}
                                 placeholder="Meaning when drawn upright..."
                                 className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
@@ -298,6 +300,7 @@ export default function CardCreator() {
                             <FormControl>
                               <Textarea 
                                 {...field}
+                                value={field.value || ""}
                                 rows={4}
                                 placeholder="Meaning when drawn reversed..."
                                 className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
@@ -319,6 +322,7 @@ export default function CardCreator() {
                           <FormControl>
                             <Textarea 
                               {...field}
+                              value={field.value || ""}
                               rows={3}
                               placeholder="Historical context and mystical lore..."
                               className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
@@ -339,6 +343,7 @@ export default function CardCreator() {
                           <FormControl>
                             <Textarea 
                               {...field}
+                              value={field.value || ""}
                               rows={3}
                               placeholder="Symbolic elements and their meanings..."
                               className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
@@ -359,6 +364,7 @@ export default function CardCreator() {
                           <FormControl>
                             <Textarea 
                               {...field}
+                              value={field.value || ""}
                               rows={2}
                               placeholder="Any additional insights or personal connections..."
                               className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"

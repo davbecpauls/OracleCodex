@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Edit, Star, Plus, Wand2, BookOpen } from "lucide-react";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import type { Deck } from "@shared/schema";
+import type { Deck, User } from "@shared/schema";
 
 export default function Profile() {
   const { toast } = useToast();

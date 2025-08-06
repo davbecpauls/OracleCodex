@@ -128,7 +128,7 @@ export default function Altar() {
                         <Input 
                           {...field}
                           placeholder="Enter your deck's mystical name..."
-                          className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent"
+                          className="bg-cosmic-800/50 border-mystic-700 text-white placeholder:text-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent caret-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -149,9 +149,10 @@ export default function Altar() {
                       <FormControl>
                         <Textarea 
                           {...field}
+                          value={field.value || ""}
                           rows={4}
                           placeholder="Describe the essence and purpose of your deck..."
-                          className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
+                          className="bg-cosmic-800/50 border-mystic-700 text-white placeholder:text-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none caret-white"
                         />
                       </FormControl>
                       <FormMessage />

@@ -206,6 +206,7 @@ export default function SpreadCreator() {
                         <FormControl>
                           <Textarea 
                             {...field}
+                            value={field.value || ""}
                             rows={3}
                             className="bg-cosmic-800/50 border-mystic-700 text-white placeholder-cosmic-400 focus:ring-2 focus:ring-celestial-500 focus:border-transparent resize-none"
                           />

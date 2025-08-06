@@ -16,6 +16,10 @@ export default defineConfig({
         ]
       : []),
   ],
+  optimizeDeps: {
+    exclude: ["chunk-TMX75OYL.js"],
+    force: true, // Force re-optimization
+  },
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
