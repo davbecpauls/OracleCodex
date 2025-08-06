@@ -12,6 +12,7 @@ import CardCreator from "@/pages/card-creator";
 import DeckPreview from "@/pages/deck-preview";
 import SpreadCreator from "@/pages/spread-creator";
 import Profile from "@/pages/profile";
+import Reading from "@/pages/reading";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/navbar";
 import MobileMenu from "@/components/mobile-menu";
@@ -38,6 +39,7 @@ function Router() {
             <Route path="/card-creator/:deckId?" component={CardCreator} />
             <Route path="/deck-preview/:deckId" component={DeckPreview} />
             <Route path="/spread-creator/:deckId" component={SpreadCreator} />
+            <Route path="/reading/:deckId" component={Reading} />
             <Route path="/profile" component={Profile} />
           </>
         )}

@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, ArrowLeft } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, ArrowLeft, Play, Edit, Plus } from "lucide-react";
 import { Link, useParams, useLocation } from "wouter";
-import type { Deck, Card as DeckCard } from "@shared/schema";
+import type { Deck, Card as DeckCard, Spread } from "@shared/schema";
 
 export default function DeckPreview() {
   const params = useParams();
@@ -17,6 +18,11 @@ export default function DeckPreview() {
 
   const { data: cards } = useQuery<DeckCard[]>({
     queryKey: ["/api/decks", deckId, "cards"],
+    enabled: !!deckId,
+  });
+
+  const { data: spreads } = useQuery<Spread[]>({
+    queryKey: ["/api/decks", deckId, "spreads"],
     enabled: !!deckId,
   });
 
@@ -57,28 +63,31 @@ export default function DeckPreview() {
                   <p className="text-cosmic-300 mb-4">
                     {deck.description || "No description available"}
                   </p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <span className="text-cosmic-400">Total Cards:</span>
-                      <span className="text-white ml-2">{cards?.length || 0}</span>
-                    </div>
-                    <div>
-                      <span className="text-cosmic-400">Created:</span>
-                      <span className="text-white ml-2">
-                        {deck.createdAt ? new Date(deck.createdAt).toLocaleDateString() : "Unknown"}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-cosmic-400">Status:</span>
-                      <span className="text-celestial-400 ml-2">
-                        {deck.isPublished ? "Published" : "Draft"}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-cosmic-400">Type:</span>
-                      <span className="text-white ml-2">Oracle</span>
-                    </div>
+                  <div className="flex flex-wrap gap-3 mb-4">
+                    <Badge className="bg-mystic-800 text-mystic-300">
+                      {cards?.length || 0} Cards
+                    </Badge>
+                    <Badge className="bg-cosmic-800 text-cosmic-300">
+                      {spreads?.length || 0} Spreads
+                    </Badge>
+                    <Badge 
+                      className={`${
+                        deck.isPublished 
+                          ? 'bg-green-900/50 text-green-300' 
+                          : 'bg-yellow-900/50 text-yellow-300'
+                      }`}
+                    >
+                      {deck.isPublished ? "Published" : "Draft"}
+                    </Badge>
+                    {deck.publishType && (
+                      <Badge className="bg-celestial-900/50 text-celestial-300">
+                        {deck.publishType === 'virtual' ? 'Virtual Reading' : 'Physical Print'}
+                      </Badge>
+                    )}
                   </div>
+                  <p className="text-cosmic-400 text-sm">
+                    Created {deck.createdAt ? new Date(deck.createdAt).toLocaleDateString() : "Unknown"}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -124,24 +133,113 @@ export default function DeckPreview() {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
-        <div className="flex gap-4">
-          <Link href="/vault" className="flex-1">
-            <Button 
-              variant="outline"
-              className="w-full bg-cosmic-700 hover:bg-cosmic-600 text-white border-cosmic-600"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Vault
-            </Button>
-          </Link>
-          <Link href={`/spread-creator/${deckId}`} className="flex-1">
-            <Button className="w-full mystic-gradient hover:opacity-90 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-mystic-500/25 border-0">
-              <BookOpen className="w-4 h-4 mr-2" />
-              Generate Guidebook
-            </Button>
-          </Link>
-        </div>
+        {/* Admin Actions */}
+        <Card className="card-glow rounded-xl mb-8 border-mystic-600/20">
+          <CardContent className="p-6">
+            <h3 className="mystical-font text-xl font-semibold mb-4 text-celestial-300">
+              Deck Management
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Link href={`/card-creator/${deckId}`}>
+                <Button className="w-full bg-gradient-to-r from-mystic-600 to-mystic-500 hover:from-mystic-500 hover:to-mystic-400 text-white" data-testid="button-edit-cards">
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Cards
+                </Button>
+              </Link>
+              
+              <Link href={`/spread-creator/${deckId}`}>
+                <Button className="w-full bg-gradient-to-r from-cosmic-600 to-cosmic-500 hover:from-cosmic-500 hover:to-cosmic-400 text-white" data-testid="button-edit-spreads">
+                  <Plus className="w-4 h-4 mr-2" />
+                  {spreads?.length ? 'Edit Spreads' : 'Create Spreads'}
+                </Button>
+              </Link>
+
+              {(cards?.length || 0) > 0 && (spreads?.length || 0) > 0 && (
+                <Link href={`/reading/${deckId}`}>
+                  <Button className="w-full bg-gradient-to-r from-celestial-600 to-celestial-500 hover:from-celestial-500 hover:to-celestial-400 text-white" data-testid="button-start-reading">
+                    <Play className="w-4 h-4 mr-2" />
+                    Start Reading
+                  </Button>
+                </Link>
+              )}
+
+              <Link href="/vault">
+                <Button 
+                  variant="outline"
+                  className="w-full border-cosmic-600 text-cosmic-300 hover:bg-cosmic-800"
+                  data-testid="button-back-vault"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Vault
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Publishing Status & Actions */}
+        <Card className="card-glow rounded-xl border-mystic-600/20">
+          <CardContent className="p-6">
+            <h3 className="mystical-font text-xl font-semibold mb-4 text-celestial-300">
+              Publishing Options
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 rounded-lg bg-cosmic-800/30">
+                <div>
+                  <h4 className="font-semibold text-white mb-1">Virtual Reading</h4>
+                  <p className="text-cosmic-400 text-sm">Enable in-app tarot readings and spreads</p>
+                </div>
+                <Badge 
+                  className={`${
+                    deck && deck.publishType === 'virtual' 
+                      ? 'bg-green-900/50 text-green-300' 
+                      : 'bg-gray-700 text-gray-400'
+                  }`}
+                >
+                  {deck && deck.publishType === 'virtual' ? 'Active' : 'Inactive'}
+                </Badge>
+              </div>
+              
+              <div className="flex items-center justify-between p-4 rounded-lg bg-cosmic-800/30">
+                <div>
+                  <h4 className="font-semibold text-white mb-1">Physical Publishing</h4>
+                  <p className="text-cosmic-400 text-sm">Prepare deck for print-on-demand or physical production</p>
+                </div>
+                <Badge 
+                  className={`${
+                    deck && deck.publishType === 'physical' 
+                      ? 'bg-green-900/50 text-green-300' 
+                      : 'bg-gray-700 text-gray-400'
+                  }`}
+                >
+                  {deck && deck.publishType === 'physical' ? 'Ready' : 'Not Ready'}
+                </Badge>
+              </div>
+              
+              {(cards?.length || 0) === 0 && (
+                <div className="text-center py-6">
+                  <p className="text-cosmic-400 mb-4">Add cards to your deck before publishing</p>
+                  <Link href={`/card-creator/${deckId}`}>
+                    <Button className="bg-gradient-to-r from-celestial-600 to-mystic-600 hover:from-celestial-500 hover:to-mystic-500" data-testid="button-add-first-card">
+                      Add Your First Card
+                    </Button>
+                  </Link>
+                </div>
+              )}
+
+              {(spreads?.length || 0) === 0 && (cards?.length || 0) > 0 && (
+                <div className="text-center py-6">
+                  <p className="text-cosmic-400 mb-4">Create spreads to enable virtual readings</p>
+                  <Link href={`/spread-creator/${deckId}`}>
+                    <Button className="bg-gradient-to-r from-celestial-600 to-mystic-600 hover:from-celestial-500 hover:to-mystic-500" data-testid="button-create-first-spread">
+                      Create Your First Spread
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

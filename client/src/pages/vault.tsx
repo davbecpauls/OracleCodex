@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Share } from "lucide-react";
+import { Plus, Share, BookOpen } from "lucide-react";
 import { Link } from "wouter";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import type { Deck } from "@shared/schema";
@@ -75,12 +75,25 @@ export default function Vault() {
                 <p className="text-cosmic-400 text-sm mb-4 line-clamp-2">
                   {deck.description || "No description available"}
                 </p>
-                <Button 
-                  className="w-full bg-gradient-to-r from-celestial-600 to-celestial-500 hover:from-celestial-500 hover:to-celestial-400 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-celestial-500/25 border-0"
-                >
-                  <Share className="w-4 h-4 mr-2" />
-                  Publish
-                </Button>
+                <div className="flex gap-2 mb-3">
+                  <Link href={`/deck-preview/${deck.id}`} className="flex-1">
+                    <Button className="w-full bg-gradient-to-r from-mystic-600 to-mystic-500 hover:from-mystic-500 hover:to-mystic-400 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-mystic-500/25 border-0" data-testid={`button-view-${deck.id}`}>
+                      <BookOpen className="w-4 h-4 mr-2" />
+                      View
+                    </Button>
+                  </Link>
+                </div>
+                <div className="flex gap-2">
+                  <Link href={`/reading/${deck.id}`} className="flex-1">
+                    <Button 
+                      className="w-full bg-gradient-to-r from-celestial-600 to-celestial-500 hover:from-celestial-500 hover:to-celestial-400 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-celestial-500/25 border-0"
+                      data-testid={`button-reading-${deck.id}`}
+                    >
+                      <Share className="w-4 h-4 mr-2" />
+                      Virtual Reading
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}
