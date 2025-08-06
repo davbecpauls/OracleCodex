@@ -12,6 +12,11 @@ Obscura Codex is a fully functional mystical web platform for creating, organizi
 - ✓ File upload system configured for card artwork and deck thumbnails
 - ✓ Responsive navigation with mystical styling and mobile support
 - ✓ Twinkling stars background animation and cosmic gradients applied
+- ✓ Successfully migrated from Replit Agent to Replit environment (August 6, 2025)
+- ✓ Enhanced admin interface with cleaner deck management and publishing options
+- ✓ Added virtual reading functionality for in-app tarot readings with interactive spreads
+- ✓ Implemented card drawing system with reversal mechanics and position-based interpretations
+- ✓ Created comprehensive deck preview with publishing status indicators
 
 ## User Preferences
 
